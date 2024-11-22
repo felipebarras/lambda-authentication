@@ -1,0 +1,21 @@
+# Pipeline para Lambda
+name: Deploy Lambda Function
+on:
+  push:
+    branches:
+      - main # é a unica que tem, mas provavelmente será outra
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Build Java Lambda
+        run: mvn clean package
+      - name: Deploy to AWS Lambda
+        uses: aws-actions/aws-lambda-deploy@v1
+        with:
+          function-name: lambda-authentication # ou o nome que preferir
+          region: us-east-1
+          zip-file: target/lambda.zip
+          role: arn:aws:iam::123456789012:role/LambdaExecutionRole
