@@ -24,7 +24,7 @@ jobs:
         run: |
           FUNCTION_NAME="postech-lambda-function"
           echo "Testing if function exists..."
-          aws lambda get-function --function-name $FUNCTION_NAME || echo "Function not found"
+          aws lambda get-function --function-name $FUNCTION_NAME --region "us-east-1" || echo "Function not found"
           echo "Exiting script for debug."
           exit 0
 
@@ -34,13 +34,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           FUNCTION_NAME="postech-lambda-function"
+          REGION="us-east-1"
           ZIP_FILE="deployment-package.zip"
           ROLE_ARN="arn:aws:iam::180294201352:role/events-app-HelloWorldFunctionRole-JCuUVdxWDR5n"
           HANDLER="findByCPF.handler"
           RUNTIME="nodejs18.x"
 
           echo "Checking if function exists..."
-          if aws lambda get-function --function-name $FUNCTION_NAME > /dev/null 2>&1; then
+          if aws lambda get-function --function-name $FUNCTION_NAME --region $REGION > /dev/null 2>&1; then
             echo "Function exists. Updating the code..."
             aws lambda update-function-code \
               --function-name $FUNCTION_NAME \
@@ -49,6 +50,7 @@ jobs:
             echo "Function does not exist. Creating the function..."
             aws lambda create-function \
               --function-name $FUNCTION_NAME \
+              --region $REGION \
               --runtime $RUNTIME \
               --role $ROLE_ARN \
               --handler $HANDLER \
