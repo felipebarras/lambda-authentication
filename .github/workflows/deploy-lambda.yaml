@@ -1,0 +1,48 @@
+# Pipeline para Lambda
+name: Deploy Lambda Function
+
+on:
+  push:
+    branches:
+      - main # é a unica que tem, mas provavelmente será outra
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Run tests
+      #   run: npm test
+      # configurando credenciais AWS
+      - name: Deploy or Update AWS Lambda
+        run: |
+          FUNCTION_NAME="postech-lambda-function"
+          ZIP_FILE="deployment-package.zip"
+          ROLE_ARN="arn:aws:iam::180294201352:role/events-app-HelloWorldFunctionRole-JCuUVdxWDR5n"
+          HANDLER="findByMyCPF.handler"
+          RUNTIME="nodejs18.x"
+
+          # Verifica se a função já existe
+          aws lambda get-function --function-name $FUNCTION_NAME > /dev/null 2>&1
+
+          if [ $? -eq 0 ]; then
+            echo "Function exists. Updating the code..."
+            aws lambda update-function-code \
+              --function-name $FUNCTION_NAME \
+              --zip-file fileb://$ZIP_FILE
+          else
+            echo "Function does not exist. Creating the function..."
+            aws lambda create-function \
+              --function-name $FUNCTION_NAME \
+              --runtime $RUNTIME \
+              --role $ROLE_ARN \
+              --handler $HANDLER \
+              --zip-file fileb://$ZIP_FILE
+          fi
