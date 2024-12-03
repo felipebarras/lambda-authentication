@@ -11,17 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout do código
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Install dependencies
         run: npm install
 
-      # - name: Run tests
-      #   run: npm test
-      # configurando credenciais AWS
+      - name: Prepare deployment package
+        run: zip -r deployment-package.zip .
+
+      - name: Debug
+        run: |
+          FUNCTION_NAME="postech-lambda-function"
+          echo "Testing if function exists..."
+          aws lambda get-function --function-name $FUNCTION_NAME || echo "Function not found"
+          echo "Exiting script for debug."
+          exit 0
+
       - name: Deploy or Update AWS Lambda
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           FUNCTION_NAME="postech-lambda-function"
           ZIP_FILE="deployment-package.zip"
@@ -29,10 +39,8 @@ jobs:
           HANDLER="findByCPF.handler"
           RUNTIME="nodejs18.x"
 
-          # Verifica se a função já existe
-          aws lambda get-function --function-name $FUNCTION_NAME > /dev/null 2>&1
-
-          if [ $? -eq 0 ]; then
+          echo "Checking if function exists..."
+          if aws lambda get-function --function-name $FUNCTION_NAME > /dev/null 2>&1; then
             echo "Function exists. Updating the code..."
             aws lambda update-function-code \
               --function-name $FUNCTION_NAME \
