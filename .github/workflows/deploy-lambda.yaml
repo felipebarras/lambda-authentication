@@ -26,7 +26,7 @@ jobs:
           FUNCTION_NAME="postech-lambda-function"
           ZIP_FILE="deployment-package.zip"
           ROLE_ARN="arn:aws:iam::180294201352:role/events-app-HelloWorldFunctionRole-JCuUVdxWDR5n"
-          HANDLER="findByMyCPF.handler"
+          HANDLER="findByCPF.handler"
           RUNTIME="nodejs18.x"
 
           # Verifica se a função já existe
