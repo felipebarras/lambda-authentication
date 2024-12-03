@@ -36,7 +36,7 @@ jobs:
           FUNCTION_NAME="postech-lambda-function"
           REGION="us-east-1"
           ZIP_FILE="deployment-package.zip"
-          ROLE_ARN="arn:aws:iam::180294201352:role/events-app-HelloWorldFunctionRole-JCuUVdxWDR5n"
+          ROLE_ARN="arn:aws:iam::180294201352:user/github-actions-lambda"
           HANDLER="findByCPF.handler"
           RUNTIME="nodejs18.x"
 
