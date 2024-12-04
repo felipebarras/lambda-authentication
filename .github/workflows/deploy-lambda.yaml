@@ -18,19 +18,25 @@ jobs:
         run: npm install
 
       - name: Prepare deployment package
-        run: zip -r deployment-package.zip .
+        run: zip -r deployment-package.zip package.json src/services/authorizers/findByCPF.js
 
       - name: Debug
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
         run: |
           FUNCTION_NAME="postech-lambda-function"
           echo "Testing if function exists..."
           aws lambda get-function --function-name $FUNCTION_NAME --region "us-east-1" || echo "Function not found"
           echo "Exiting script for debug."
           exit 0
+
+      - name: Validate deployment package
+        run: |
+          echo "Listing deployment package contents:"
+          unzip -l deployment-package.zip
+          echo "Checking deployment package size:"
+          ls -lh deployment-package.zip
 
       - name: Deploy or Update AWS Lambda
         env:
@@ -41,7 +47,7 @@ jobs:
           REGION="us-east-1"
           ZIP_FILE="deployment-package.zip"
           ROLE_ARN="arn:aws:iam::180294201352:user/github-actions-lambda"
-          HANDLER="findByCPF.handler"
+          HANDLER="src/services/authorizers/findByCPF.handler"
           RUNTIME="nodejs18.x"
 
           echo "Checking if function exists..."
