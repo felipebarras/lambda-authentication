@@ -27,9 +27,8 @@ jobs:
 
         run: |
           FUNCTION_NAME="postech-lambda-function"
-          ROLE_ARN="arn:aws:iam::180294201352:user/github-actions-lambda"
           echo "Testing if function exists..."
-          aws lambda get-function --function-name $FUNCTION_NAME --region "us-east-1" --role $ROLE_ARN || echo "Function not found"
+          aws lambda get-function --function-name $FUNCTION_NAME --region "us-east-1" || echo "Function not found"
           echo "Exiting script for debug."
           exit 0
 
