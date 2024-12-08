@@ -1,6 +1,6 @@
-resource "aws_lambda_function" "find_by_cpf" {
+resource "aws_lambda_function" "node_js_lambda_authorizer" {
   filename         = data.archive_file.findByCPF_zip.output_path
-  function_name    = "node-js-lambda-authorizer"
+  function_name    = "node_js_lambda_authorizer"
   role             = aws_iam_role.lambda_exec_role.arn
   handler          = "findByCPF.handler"
   runtime          = "nodejs18.x"
@@ -17,7 +17,7 @@ resource "aws_lambda_function" "find_by_cpf" {
 resource "aws_lambda_permission" "allow_api_gateway" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.find_by_cpf.function_name
+  function_name = aws_lambda_function.node_js_lambda_authorizer.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.api_gateway.execution_arn}/*/*"
 }
