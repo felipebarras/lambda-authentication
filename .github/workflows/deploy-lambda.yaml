@@ -38,32 +38,3 @@ jobs:
         if: always()
         run: |
           terraform destroy -auto-approve
-
-      # - name: Deploy or Update AWS Lambda
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     FUNCTION_NAME="postech-lambda-function"
-      #     REGION="us-east-1"
-      #     ZIP_FILE="deployment-package.zip"
-      #     ROLE_ARN="arn:aws:iam::180294201352:role/github-actions-lambda-role"
-      #     HANDLER="src/services/authorizers/findByCPF.handler"
-      #     RUNTIME="nodejs18.x"
-
-      #     echo "Checking if function exists..."
-      #     if aws lambda get-function --function-name $FUNCTION_NAME --region $REGION > /dev/null 2>&1; then
-      #       echo "Function exists. Updating the code..."
-      #       aws lambda update-function-code \
-      #         --function-name $FUNCTION_NAME \
-      #         --zip-file fileb://$ZIP_FILE
-      #     else
-      #       echo "Function does not exist. Creating the function..."
-      #       aws lambda create-function \
-      #         --function-name $FUNCTION_NAME \
-      #         --region $REGION \
-      #         --runtime $RUNTIME \
-      #         --role $ROLE_ARN \
-      #         --handler $HANDLER \
-      #         --zip-file fileb://$ZIP_FILE
-      #     fi
