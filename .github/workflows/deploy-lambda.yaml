@@ -14,18 +14,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm install
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-      - name: Prepare deployment package
-        run: zip -r deployment-package.zip package.json src/services/authorizers/findByCPF.js
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.6
 
-      - name: Validate deployment package
+      - name: Terraform Execution
         run: |
-          echo "Listing deployment package contents:"
-          unzip -l deployment-package.zip
-          echo "Checking deployment package size:"
-          ls -lh deployment-package.zip
+          terraform init
+          terraform validate
+          terraform plan
+          terraform apply -auto-approve
+
+      # Terraform destroy
+      - name: Terraform Destroy
+        if: always()
+        run: |
+          terraform destroy -auto-approve
 
       # - name: Deploy or Update AWS Lambda
       #   env:

@@ -1,7 +1,7 @@
 const http = require('http');
 
 exports.handler = async (event) => {
-  const verifyIfExistsCustomerUri = process.env.CUSTOMER_API_URI || 'http://100.27.205.96:8080/api/v1/cliente/';
+  const verifyIfExistsCustomerUri = process.env.eks_find_by_cpf_endpoint;
   
   try {
     const cpf = event.headers?.['cpf'];
