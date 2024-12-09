@@ -47,6 +47,8 @@ resource "aws_iam_policy" "iam_policy" {
       {
         Effect   = "Allow",
         Action   = [
+          "iam:GetPolicy,
+          "iam:CreatePolicy",
           "iam:CreateRole",
           "iam:GetRole",
           "iam:ListRoles",
