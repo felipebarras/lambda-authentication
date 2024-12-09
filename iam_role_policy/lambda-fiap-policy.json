@@ -1,24 +1,24 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "lambda:GetPolicy",
-                "lambda:GetFunction",
-                "lambda:ListVersionsByFunction",
-                "lambda:GetFunctionCodeSigningConfig",
-                "lambda:AddPermission",
-                "lambda:CreateFunction",
-                "lambda:UpdateFunctionCode",
-                "lambda:InvokeFunction",
-                "lambda:DeleteFunction",
-                "lambda:RemovePermission",
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": "*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "lambda:GetPolicy",
+        "lambda:GetFunction",
+        "lambda:ListVersionsByFunction",
+        "lambda:GetFunctionCodeSigningConfig",
+        "lambda:AddPermission",
+        "lambda:CreateFunction",
+        "lambda:UpdateFunctionCode",
+        "lambda:InvokeFunction",
+        "lambda:DeleteFunction",
+        "lambda:RemovePermission",
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
 }
