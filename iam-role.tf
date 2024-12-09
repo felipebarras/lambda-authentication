@@ -1,3 +1,4 @@
+# Role para o Lambda
 resource "aws_iam_role" "lambda_exec_role" {
   name = "lambda_exec_role"
   assume_role_policy = jsonencode({
@@ -13,6 +14,7 @@ resource "aws_iam_role" "lambda_exec_role" {
     ]
   })
 }
+
 resource "aws_iam_policy_attachment" "lambda_basic_execution" {
   name       = "lambda_basic_execution"
   roles      = [aws_iam_role.lambda_exec_role.name]
