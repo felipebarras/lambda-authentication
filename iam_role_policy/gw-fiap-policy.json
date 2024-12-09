@@ -4,7 +4,7 @@
     {
       "Sid": "Statement1",
       "Effect": "Allow",
-      "Action": ["apigateway:POST", "apigateway:GET", "apigateway:PUT", "apigateway:DELETE"],
+      "Action": ["apigateway:POST", "apigateway:GET", "apigateway:PUT", "apigateway:DELETE", "apigateway:PATCH"],
       "Resource": "*"
     }
   ]

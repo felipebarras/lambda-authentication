@@ -17,7 +17,7 @@
         "iam:ListInstanceProfilesForRole",
         "iam:DeleteRole"
       ],
-      "Resource": "*"
+      "Resource": "arn:aws:iam::180294201352:role/lambda_exec_role"
     }
   ]
 }
