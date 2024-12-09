@@ -6,7 +6,7 @@ resource "aws_apigatewayv2_api" "api_gateway" {
 resource "aws_apigatewayv2_integration" "lambda_integration" {
   api_id                  = aws_apigatewayv2_api.api_gateway.id
   integration_type        = "AWS_PROXY"
-  integration_uri         = aws_lambda_function.find_by_cpf.invoke_arn
+  integration_uri         = aws_lambda_function.node_js_lambda_authorizer.invoke_arn
   payload_format_version  = "2.0"
 }
 
