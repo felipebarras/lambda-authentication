@@ -1,8 +1,9 @@
 const http = require('http');
+require('dotenv').config();
 
 exports.handler = async (event) => {
   const verifyIfExistsCustomerUri = process.env.eks_find_by_cpf_endpoint;
-  
+
   try {
     const cpf = event.headers?.['cpf'];
 
@@ -13,23 +14,25 @@ exports.handler = async (event) => {
     // Promisify HTTP request
     const makeHttpRequest = (url) => {
       return new Promise((resolve, reject) => {
-        http.get(url, (response) => {
-          let data = '';
+        http
+          .get(url, (response) => {
+            let data = '';
 
-          response.on('data', (chunk) => {
-            data += chunk;
-          });
+            response.on('data', (chunk) => {
+              data += chunk;
+            });
 
-          response.on('end', () => {
-            if (response.statusCode === 200) {
-              resolve(); // Sucesso com base no status 200
-            } else {
-              reject(new Error(`HTTP Status: ${response.statusCode}`));
-            }
+            response.on('end', () => {
+              if (response.statusCode === 200) {
+                resolve(); // Sucesso com base no status 200
+              } else {
+                reject(new Error(`HTTP Status: ${response.statusCode}`));
+              }
+            });
+          })
+          .on('error', (err) => {
+            reject(err);
           });
-        }).on('error', (err) => {
-          reject(err);
-        });
       });
     };
 
@@ -70,7 +73,6 @@ exports.handler = async (event) => {
     };
   }
 };
-
 
 // VALIDAÇÃO VIA JWT
 
