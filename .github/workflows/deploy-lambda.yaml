@@ -34,7 +34,7 @@ jobs:
           terraform apply -auto-approve
 
       # Terraform destroy para evitar que tenham custos
-      - name: Terraform Destroy
-        if: always()
-        run: |
-          terraform destroy -auto-approve
+      # - name: Terraform Destroy
+      #   if: always()
+      #   run: |
+      #     terraform destroy -auto-approve
